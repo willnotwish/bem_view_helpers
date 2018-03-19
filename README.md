@@ -26,3 +26,9 @@ Here's a real life (slim) example
     = b.element 'thumbnail', course.thumbnail
 
 ```
+
+which gets rendered as
+
+```html
+<div title="Details of 10 Weeks to 10k 2018" class="c-teaser"><header class="c-teaser__header"><h5 class="c-teaser__name c-teaser__name--title">10 Weeks to 10k 2018</h5><div class="status-label status-label--published">Published</div><div class="c-teaser__dates">Started on 25-Jan-2018 (ends on 05-Apr-2018)</div></header><main class="c-teaser__main"><div class="c-teaser__membership">Your enrolment is  <div class="status-label status-label--confirmed">Confirmed</div></div><div class="c-teaser__thumbnail"><img alt="Thumbnail image of 10 Weeks to 10k 2018" src="http://via.placeholder.com/100x100"></div></main></div>
+```

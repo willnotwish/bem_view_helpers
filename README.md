@@ -4,7 +4,7 @@ Very simple gem to avoid repeating class names in Rails views when using BEM
 
 Here's a real life (slim) example
 
-```slim
+```ruby
 
 = link_to courses.course_path( course.id ) do
 	= bem_block block_name, html: { title: "Click to view details of #{course.name}" } do |b|

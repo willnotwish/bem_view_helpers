@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Nick Adams"]
   spec.email         = ["nadams@dsc.net"]
 
-  spec.summary       = %q{Very simple BEM view helpers for use in Rails application}
+  spec.summary       = %q{Very simple BEM view helpers for use in Rails applications}
   spec.homepage      = "https://github.com/will_not_wish/bem_view_helpers"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

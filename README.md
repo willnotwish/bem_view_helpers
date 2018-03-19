@@ -26,6 +26,4 @@ Here's a real life (slim) example
 					= b.element 'enrol-button', 'Enrol now'
 			
 			= b.element 'thumbnail', course.thumbnail
-
-
 ```

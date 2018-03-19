@@ -6,24 +6,23 @@ Here's a real life (slim) example
 
 ```ruby
 
-= link_to courses.course_path( course.id ) do
-	= bem_block block_name, html: { title: "Click to view details of #{course.name}" } do |b|
-		= b.header do
-			= b.element 'name', course.name, title: true, tag_name: :h5
-			= bem_block 'status-label', course.human_state, published: course.published?, restricted: course.restricted?
-			= b.element 'dates', course.dates_as_text
-		= b.main do |m|
-			- membership = course.membership_for( current_user )
-			- if membership
-				= b.element 'membership' do
-					- if membership.confirmed?
-						'Your enrolment is 
-					= bem_block 'status-label', membership.aasm.human_state, confirmed: membership.confirmed?, provisional: membership.provisional?
+= bem_block block_name, html: { title: "Details of #{course.name}" } do |b|
+  = b.header do
+    = b.element 'name', course.name, title: true, tag_name: :h5
+    = b.element 'dates', course.dates_as_text
+  = b.main do |m|
+    - membership = course.membership_for( current_user )
+    - if membership
+      = b.element 'membership' do
+        - if membership.confirmed?
+          'Your enrolment is 
+        = bem_block 'status-label', membership.aasm.human_state, confirmed: membership.confirmed?, provisional: membership.provisional?
 
-			- else
-				= b.element 'description' do
-					p = course.description
-					= b.element 'enrol-button', 'Enrol now'
-			
-			= b.element 'thumbnail', course.thumbnail
+    - else
+      = b.element 'description' do
+        p = course.description
+        = b.element 'enrol-button', 'Enrol now'
+    
+    = b.element 'thumbnail', course.thumbnail
+
 ```

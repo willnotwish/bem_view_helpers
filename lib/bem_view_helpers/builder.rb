@@ -6,8 +6,6 @@ module BemViewHelpers
 
       attr_reader :current_block, :context
 
-      delegate :capture, :content_tag, to: :context
-
       def initialize( block, _context )
         @current_block = block
         @context = _context
@@ -21,14 +19,11 @@ module BemViewHelpers
         _bem( name, content, options, &block )    
       end
 
-      def header( name=nil, content=nil, options={}, &block )
-        name ||= 'header'
-        _bem( name, content, options.merge(tag_name: 'header'), &block)
-      end
-
-      def main( name=nil, content=nil, options={}, &block )
-        name ||= 'main'
-        _bem( name, content, options.merge(tag_name: 'main'), &block)
+      # Sytactic sugar for common HTML tags
+      %i(header footer main section aside p).each do |tag_name|
+        define_method tag_name do |name, content=nil, options={}, &block|
+          _bem( name, content, options.merge(tag_name: tag_name), &block )
+        end
       end
 
     private 
@@ -47,7 +42,7 @@ module BemViewHelpers
 
         content ||= begin
           builder = self.class.new( current_name, context )
-          capture( builder, &block )
+          context.capture( builder, &block )
         end 
 
         modifiers = options.map do |key, value|
@@ -55,7 +50,7 @@ module BemViewHelpers
           next if key == 'html' || key == 'tag_name'
 
           value = value.call if value.respond_to? :call
-          value ? key : nil
+          value ? key.dasherize : nil
         end.compact
 
         
@@ -64,8 +59,37 @@ module BemViewHelpers
           html_classes << "#{current_name}--#{modifier}"
         end
 
-        content_tag( (options[:tag_name] || :div), content, html_options.merge( class: html_classes.join(' ') ) )
+        html_options = html_options.merge( class: html_classes.join(' ') )
+
+        tag_name = options[:tag_name] || :div
+        context.content_tag( tag_name, content, html_options )
       end
     end
   end
 end
+
+
+      # def header( name, content=nil, options={}, &block )
+      #   _bem( name, content, options.merge(tag_name: :header), &block)
+      # end
+
+      # def footer( name, content=nil, options={}, &block )
+      #   _bem( name, content, options.merge(tag_name: :footer), &block)
+      # end
+
+      # def main( name, content=nil, options={}, &block )
+      #   _bem( name, content, options.merge(tag_name: :main), &block)
+      # end
+
+      # def paragraph( name, content=nil, options={}, &block )
+      #   _bem( name, content, options.merge(tag_name: :p), &block)
+      # end
+
+      # def section( name, content=nil, options={}, &block )
+      #   _bem( name, content, options.merge(tag_name: :section), &block)
+      # end
+
+      # def aside( name, content=nil, options={}, &block )
+      #   _bem( name, content, options.merge(tag_name: :aside), &block)
+      # end
+

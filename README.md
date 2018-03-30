@@ -2,7 +2,9 @@
 
 Very simple gem to avoid repeating class names in Rails views when using BEM
 
-Here's a real life (slim) example
+Here's a real life (slim) example.
+
+### Usage
 
 ```ruby
 

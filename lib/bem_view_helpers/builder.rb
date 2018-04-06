@@ -20,19 +20,22 @@ module BemViewHelpers
       end
 
       # Sytactic sugar for common HTML tags
-      %i(header footer main section aside p).each do |tag_name|
-        define_method tag_name do |name, content=nil, options={}, &block|
-          _bem( name, content, options.merge(tag_name: tag_name), &block )
+      %i(aside header footer main section p h1 h2 h3 h4 h5 nav).each do |tag_name|
+        # define_method tag_name do |block_or_element_name=nil, content=nil, options={}, &block|
+          # options, content = content, nil if content && content.is_a?( Hash )
+        define_method tag_name do |*args, &block|
+          options = args.extract_options!
+
+          block_or_element_name, content = args[0], args[1]
+
+          _bem( block_or_element_name || tag_name, content, options.merge(tag_name: tag_name), &block )
         end
       end
 
     private 
 
       def _bem( name, content, options, &block )
-        if content && content.is_a?( Hash)
-          options = content
-          content = nil
-        end
+        options, content = content, nil if content && content.is_a?( Hash )
 
         raise ArgumentError, "Missing content or block" if content.nil? && !block_given?
 
@@ -67,29 +70,3 @@ module BemViewHelpers
     end
   end
 end
-
-
-      # def header( name, content=nil, options={}, &block )
-      #   _bem( name, content, options.merge(tag_name: :header), &block)
-      # end
-
-      # def footer( name, content=nil, options={}, &block )
-      #   _bem( name, content, options.merge(tag_name: :footer), &block)
-      # end
-
-      # def main( name, content=nil, options={}, &block )
-      #   _bem( name, content, options.merge(tag_name: :main), &block)
-      # end
-
-      # def paragraph( name, content=nil, options={}, &block )
-      #   _bem( name, content, options.merge(tag_name: :p), &block)
-      # end
-
-      # def section( name, content=nil, options={}, &block )
-      #   _bem( name, content, options.merge(tag_name: :section), &block)
-      # end
-
-      # def aside( name, content=nil, options={}, &block )
-      #   _bem( name, content, options.merge(tag_name: :aside), &block)
-      # end
-
